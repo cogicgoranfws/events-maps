@@ -1,38 +1,74 @@
+* , *::after, *::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
+  height: 100vh;
+  width: 100%;
+  background-color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+}
+
+.map-container {
+  flex-grow: 1;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.card-wrapper {
+  width: 300px;
+  max-height: 500px;
+  padding: .3em;
+  border-radius: 8px;
+  background-color: bisque;
+}
+
+.card-wrapper h2{
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.card-wrapper__date {
+  text-align: center;
+  display: block;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.card-wrapper__img {
+  display: block;
+  width: 100%;
+  max-height: 100px;
+  object-fit: cover;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.card-wrapper__tickets {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.card-wrapper__description {
+  text-align: center;
+  margin: 1em 0;
 }
 
-@keyframes App-logo-spin {
+.card-wrapper__tickets > * {
+  flex: 1 0 0
+}
+
+.popup {
+  animation: scaleUp 750ms;
+  transform-origin: "10% 10%";
+}
+
+@keyframes scaleUp {
   from {
-    transform: rotate(0deg);
+    transform: scaleY(0.2);
   }
+
   to {
-    transform: rotate(360deg);
+    transform: scaleY(1);
   }
 }
