@@ -9,9 +9,15 @@
   width: 100%;
   background-color: orange;
   display: flex;
+  gap: 2px;
   justify-content: center;
   align-items: center;
   padding: 2px;
+}
+
+.App > :first-child {
+  height: 100%;
+  width: 300px;
 }
 
 .map-container {
@@ -71,4 +77,13 @@
   to {
     transform: scaleY(1);
   }
+}
+
+.selector {
+  padding: 1em;
+}
+
+.filtered-display {
+  border-radius: 4px;
+  background-color: green;
 }

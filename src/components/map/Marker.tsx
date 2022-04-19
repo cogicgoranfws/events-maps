@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useEventsContext } from "../../context/eventsContext";
 import { EventDataInterface } from "../../data/events";
 
@@ -36,7 +36,7 @@ interface MarkerProps extends google.maps.MarkerOptions {
 
 function Marker(options: MarkerProps): null {
   const [marker, setMarker] = React.useState<google.maps.Marker | null>(null);
-  const { activeInfoWindow, setNewInfoWindow } = useEventsContext();
+  const { setActiveInfoWindow } = useEventsContext();
 
   useEffect(() => {
     if (marker) return;
@@ -50,9 +50,20 @@ function Marker(options: MarkerProps): null {
       content: getHTMLString(options.event),
     });
 
+    infowindow.addListener("zindex_changed", () => "changed zindex");
+
     newMarker.addListener("click", () => {
-      infowindow.open(newMarker.get("map"), newMarker);
-      setNewInfoWindow(infowindow);
+      setActiveInfoWindow((prevInfo: google.maps.InfoWindow | null) => {
+        if (prevInfo) {
+          prevInfo.close();
+        }
+        if(prevInfo !== infowindow) {
+          infowindow.open(newMarker.get("map"), newMarker);
+          return infowindow;
+        }
+
+        return null;
+      });
     });
 
     setMarker(newMarker);

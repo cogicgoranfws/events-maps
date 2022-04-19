@@ -4,36 +4,29 @@ import type { EventDataInterface } from "../data/events";
 interface EventsContextInterface {
   events: EventDataInterface[];
   setEvents: React.Dispatch<React.SetStateAction<EventDataInterface[]>>;
-  activeInfoWindow:google.maps.InfoWindow | null;
-  setNewInfoWindow: (newInfoWindow: google.maps.InfoWindow) => void;
+  activeInfoWindow: google.maps.InfoWindow | null;
+  setActiveInfoWindow: React.Dispatch<React.SetStateAction<google.maps.InfoWindow | null>>
 }
 
 const EventsContext = createContext<EventsContextInterface>({
   events: [],
   setEvents: () => {},
   activeInfoWindow: null,
-  setNewInfoWindow:() => {}
+  setActiveInfoWindow: () => {},
 });
 
 export default function EventsContextProvider({ children }: any) {
   const [events, setEvents] = useState<EventDataInterface[]>([]);
-  const [activeInfoWindow, setActiveInfoWindow] = useState<google.maps.InfoWindow | null>(
-    null
-  );
+  const [activeInfoWindow, setActiveInfoWindow] =
+    useState<google.maps.InfoWindow | null>(null);
+  
 
   const value: EventsContextInterface = {
     events,
     setEvents,
     activeInfoWindow,
-    setNewInfoWindow
+    setActiveInfoWindow,
   };
-
-  function setNewInfoWindow(newInfoWindow: google.maps.InfoWindow) {
-    setActiveInfoWindow((prevInfoWindow) => {
-        if(prevInfoWindow) prevInfoWindow.close();
-        return newInfoWindow;
-    });
-  }
 
   return (
     <EventsContext.Provider value={value}>{children}</EventsContext.Provider>
