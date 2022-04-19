@@ -1,13 +1,95 @@
-import { EventDataInterface } from "../../data/events"
+import { EventDataInterface } from "../../data/events";
 
 interface Props {
-  events: EventDataInterface[]
+  events: EventDataInterface[];
 }
 
-function FilteredDisplay({events} : Props): JSX.Element {
+function getFormatedDateDisplay(date: Date): string {
+  const dateDay = date.getDate();
+  const month = months[date.getMonth()].short;
+  const year = date.getFullYear();
+  const hour = date.getHours().toString().padStart(2, "0");
+  const minute = date.getMinutes().toString().padStart(2, "0");
+  const second = date.getSeconds().toString().padStart(2, "0");
+  const dateToText = `${dateDay} ${month} ${year}, ${hour}:${minute}:${second}`;
+  return dateToText;
+}
+
+const weekdays = [
+  { long: "Monday", short: "Mon" },
+  { long: "Tuesday", short: "Tue" },
+  { long: "Wednesday", short: "Wed" },
+  { long: "Thursday", short: "Thu" },
+  { long: "Friday", short: "Fri" },
+  { long: "Saturday", short: "Sat" },
+  { long: "Sunday", short: "Sun" },
+];
+
+const months = [
+  { long: "January", short: "Jan" },
+  { long: "February", short: "Feb" },
+  { long: "March", short: "Mar" },
+  { long: "April", short: "Apr" },
+  { long: "May", short: "May" },
+  { long: "June", short: "Jun" },
+  { long: "July", short: "Jul" },
+  { long: "August", short: "Aug" },
+  { long: "September", short: "Sep" },
+  { long: "October", short: "Oct" },
+  { long: "November", short: "Nov" },
+  { long: "December", short: "Dec" },
+];
+
+function FilteredDisplay({ events }: Props): JSX.Element {
   return (
-    <div className="filtered-display">FilteredDisplay</div>
-  )
+    <div className="filtered-display">
+      {events.map(
+        ({
+          title,
+          img,
+          date,
+          authors,
+          cap,
+          booked,
+          left,
+        }: EventDataInterface) => {
+          return (
+            <div className="filtered-display__card">
+              <h2 className="filtered-display__title">{title}</h2>
+              <time className="filtered-display__date">
+                {getFormatedDateDisplay(new Date(date))}
+              </time>
+              <img
+                className="filtered-display__img"
+                src={`/images/${img}`}
+                alt={title}
+              />
+              <h3 className="filtered-display__authors">
+                {authors.join(", ")}
+              </h3>
+              <div className="filtered-display__tickets">
+                <p className="filtered-display__cap">
+                  Capacity:
+                  <br />
+                  {cap}
+                </p>
+                <p className="filtered-display__booked">
+                  Tickets bought:
+                  <br />
+                  {booked}
+                </p>
+                <p className="filtered-display__left">
+                  Tickets left:
+                  <br />
+                  {left}
+                </p>
+              </div>
+            </div>
+          );
+        }
+      )}
+    </div>
+  );
 }
 
-export default FilteredDisplay
+export default FilteredDisplay;

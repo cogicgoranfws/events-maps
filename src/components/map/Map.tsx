@@ -46,7 +46,7 @@ function Map({ className, onBoundsChanged , ...options  }: MapProps): JSX.Elemen
       };
 
       onBoundsChanged(formattedBounds);
-    }, 1000);
+    }, 750);
 
     setBoundsTimeout((prevTimeout: NodeJS.Timeout | null) => {
       if (prevTimeout) clearTimeout(prevTimeout);
