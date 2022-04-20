@@ -2,6 +2,7 @@ import { EventDataInterface } from "../../data/events";
 
 interface Props {
   events: EventDataInterface[];
+  onEventClick: (title: string) => void;
 }
 
 function getFormatedDateDisplay(date: Date): string {
@@ -40,7 +41,7 @@ const months = [
   { long: "December", short: "Dec" },
 ];
 
-function FilteredDisplay({ events }: Props): JSX.Element {
+function FilteredDisplay({ events, onEventClick }: Props): JSX.Element {
   return (
     <div className="filtered-display">
       {events.map(
@@ -54,7 +55,7 @@ function FilteredDisplay({ events }: Props): JSX.Element {
           left,
         }: EventDataInterface) => {
           return (
-            <div className="filtered-display__card">
+            <div key={title} className="filtered-display__card">
               <h2 className="filtered-display__title">{title}</h2>
               <time className="filtered-display__date">
                 {getFormatedDateDisplay(new Date(date))}
@@ -84,6 +85,12 @@ function FilteredDisplay({ events }: Props): JSX.Element {
                   {left}
                 </p>
               </div>
+              <button
+                className="filtered-display__locate"
+                onClick={onEventClick.bind(null, title)}
+              >
+                Locate on Map
+              </button>
             </div>
           );
         }

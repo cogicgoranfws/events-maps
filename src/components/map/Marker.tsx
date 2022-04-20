@@ -35,8 +35,10 @@ interface MarkerProps extends google.maps.MarkerOptions {
 }
 
 function Marker(options: MarkerProps): null {
+  const { map, markers, setMarkers } = useEventsContext();
   const [marker, setMarker] = React.useState<google.maps.Marker | null>(null);
   const { setActiveInfoWindow } = useEventsContext();
+  
 
   useEffect(() => {
     if (marker) return;
@@ -58,6 +60,7 @@ function Marker(options: MarkerProps): null {
           prevInfo.close();
         }
         if(prevInfo !== infowindow) {
+          map?.panTo(newMarker.getPosition()!)
           infowindow.open(newMarker.get("map"), newMarker);
           return infowindow;
         }
@@ -66,10 +69,20 @@ function Marker(options: MarkerProps): null {
       });
     });
 
+    newMarker.setTitle(options.event.title);
+
     setMarker(newMarker);
+    setMarkers((prevMarkers: google.maps.Marker[]) => {
+      return [...prevMarkers, newMarker];
+    })
 
     return () => {
+      if(newMarker) newMarker.setMap(null);
       setMarker(null);
+      setMarkers((prevMarkers: google.maps.Marker[]) => {
+        const filtered = prevMarkers.filter((marker: google.maps.Marker) => marker !== newMarker)
+        return filtered;
+      })
     };
   }, []);
 

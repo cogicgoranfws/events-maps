@@ -130,7 +130,14 @@ export const eventsData: EventDataInterface[] = [
     cap: 13500,
     booked: 11850,
     left: 1650,
-    authors: ["Justin Bieber", "Lil Wayne", "Wiz Khalifa", "Wu-Tang Clan", "Halsey", "Backstreet Boys"],
+    authors: [
+      "Justin Bieber",
+      "Lil Wayne",
+      "Wiz Khalifa",
+      "Wu-Tang Clan",
+      "Halsey",
+      "Backstreet Boys",
+    ],
     position: { lat: 43.02888534453755, lng: -87.9014939292456 },
   },
 ];

@@ -4,6 +4,9 @@ import { useEventsContext } from "../../context/eventsContext";
 import { EventDataInterface, eventsData } from "../../data/events";
 import { logBounds } from "../../utils/all";
 import Marker from "./Marker";
+import {MarkerClusterer} from "@googlemaps/markerclusterer";
+
+
 
 interface MapProps extends google.maps.MapOptions {
   className: string;
@@ -13,8 +16,7 @@ interface MapProps extends google.maps.MapOptions {
 
 function Map({ className, onBoundsChanged , ...options  }: MapProps): JSX.Element {
   const ref = React.useRef<HTMLDivElement>(null);
-  const [map, setMap] = React.useState<google.maps.Map>();
-  const { events, setEvents } = useEventsContext();
+  const { map, setMap, markers, events, setEvents } = useEventsContext();
   const [boundsTimeout, setBoundsTimeout] = useState<NodeJS.Timeout | null>(
     null
   );
@@ -86,6 +88,20 @@ function Map({ className, onBoundsChanged , ...options  }: MapProps): JSX.Elemen
       };
     }
   }, [map]);
+
+  useEffect(() => {
+    console.log(markers);
+    
+    if (map) {
+      console.log('call clusterert');
+      
+      const clusterer = new MarkerClusterer({map, markers});
+
+      return () => {
+        clusterer.unbindAll()
+      }
+    }
+  }, [markers]);
 
   return (
     <>
